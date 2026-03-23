@@ -1,0 +1,387 @@
+.mine-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.profile-card,
+.auth-card,
+.setting-card,
+.stats-card,
+.sync-card {
+  padding: 28rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 22rpx;
+  background: linear-gradient(180deg, rgba(233, 244, 237, 0.96) 0%, rgba(255, 253, 248, 0.96) 100%);
+}
+
+.avatar-placeholder {
+  width: 100rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2f5d50;
+  flex-shrink: 0;
+}
+
+.avatar-text {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fffdf8;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #2b2b2b;
+}
+
+.profile-desc {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: #7a746b;
+}
+
+.card-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #2b2b2b;
+}
+
+.card-desc {
+  display: block;
+  margin-top: 14rpx;
+  font-size: 25rpx;
+  line-height: 1.7;
+  color: #7a746b;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.status-badge {
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  flex-shrink: 0;
+}
+
+.status-badge--pending {
+  background: rgba(217, 143, 57, 0.14);
+}
+
+.status-badge-text {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #b36d1f;
+}
+
+.auth-feature-list {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.auth-feature-item {
+  font-size: 25rpx;
+  line-height: 1.7;
+  color: #655f57;
+}
+
+.auth-actions {
+  margin-top: 24rpx;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.auth-button {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18rpx;
+}
+
+.auth-button--primary {
+  background: linear-gradient(135deg, #2f5d50 0%, #3c7364 100%);
+}
+
+.auth-button--secondary {
+  border: 2rpx solid #2f5d50;
+  background: #fffdf8;
+}
+
+.auth-button-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2f5d50;
+}
+
+.auth-button-text--primary {
+  color: #fffdf8;
+}
+
+.stats-grid {
+  margin-top: 24rpx;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.stat-item {
+  padding: 24rpx 20rpx;
+  border-radius: 22rpx;
+  background: #f6f1e7;
+}
+
+.stat-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #2f5d50;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #7a746b;
+}
+
+.study-summary {
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 2rpx solid #f1ebdf;
+}
+
+.summary-row,
+.sync-item {
+  padding: 16rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.summary-label,
+.sync-label {
+  font-size: 26rpx;
+  color: #2b2b2b;
+}
+
+.summary-value,
+.sync-status {
+  font-size: 24rpx;
+  color: #7a746b;
+}
+
+.summary-value--pending {
+  color: #d98f39;
+}
+
+.practice-count-row {
+  margin-top: 24rpx;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16rpx;
+}
+
+.count-chip {
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid #ddd3c5;
+  border-radius: 18rpx;
+  background: #fffdf8;
+}
+
+.count-chip--active {
+  border-color: #2f5d50;
+  background: rgba(47, 93, 80, 0.1);
+}
+
+.count-chip-text {
+  font-size: 24rpx;
+  color: #7a746b;
+}
+
+.count-chip-text--active {
+  color: #2f5d50;
+  font-weight: 700;
+}
+
+.custom-practice-row {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.practice-input {
+  flex: 1;
+  height: 72rpx;
+  padding: 0 18rpx;
+  border: 2rpx solid #ddd3c5;
+  border-radius: 18rpx;
+  background: #fffcf6;
+  font-size: 26rpx;
+  color: #2b2b2b;
+}
+
+.practice-save-button {
+  width: 112rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18rpx;
+  background: #2f5d50;
+}
+
+.practice-save-button-text {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #fffdf8;
+}
+
+.setting-item {
+  padding: 26rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2rpx solid #f1ebdf;
+}
+
+.setting-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.setting-text {
+  font-size: 28rpx;
+  color: #2b2b2b;
+}
+
+.setting-text--danger {
+  color: #c14c44;
+}
+
+.setting-arrow {
+  font-size: 34rpx;
+  color: #b9b0a3;
+}
+
+.logout-button {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid rgba(217, 79, 69, 0.35);
+  border-radius: 18rpx;
+  background: rgba(252, 234, 234, 0.8);
+}
+
+.logout-button-text {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #c14c44;
+}
+
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 32, 28, 0.42);
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 620rpx;
+  padding: 36rpx 32rpx 30rpx;
+  border-radius: 28rpx;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 246, 0.98) 0%, rgba(249, 243, 232, 0.98) 100%);
+  box-shadow: 0 24rpx 80rpx rgba(47, 93, 80, 0.12);
+}
+
+.modal-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  text-align: center;
+  color: #2b2b2b;
+}
+
+.modal-content {
+  display: block;
+  margin-top: 18rpx;
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: #655f57;
+  white-space: pre-line;
+}
+
+.modal-actions {
+  margin-top: 30rpx;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.modal-actions--single {
+  grid-template-columns: 1fr;
+}
+
+.modal-button {
+  height: 84rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+}
+
+.modal-button--primary {
+  background: linear-gradient(135deg, #2f5d50 0%, #3c7364 100%);
+}
+
+.modal-button--secondary {
+  border: 2rpx solid #d9cfbf;
+  background: rgba(255, 253, 248, 0.92);
+}
+
+.modal-button--danger {
+  background: linear-gradient(135deg, #c96c56 0%, #b85646 100%);
+}
+
+.modal-button-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #fffdf8;
+}
+
+.modal-button-text--secondary {
+  color: #7a746b;
+}

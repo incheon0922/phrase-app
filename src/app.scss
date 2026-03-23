@@ -1,0 +1,27 @@
+page {
+  min-height: 100%;
+  background: #f7f3ea;
+  color: #2b2b2b;
+  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+}
+
+view,
+text,
+button {
+  box-sizing: border-box;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 24rpx 24rpx calc(48rpx + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at top right, rgba(217, 143, 57, 0.12), transparent 24%),
+    linear-gradient(180deg, #f3ecdf 0%, #f7f3ea 35%, #f7f3ea 100%);
+}
+
+.card {
+  background: #fffdf8;
+  border: 2rpx solid #e7dfd1;
+  border-radius: 28rpx;
+  box-shadow: 0 10rpx 30rpx rgba(61, 50, 33, 0.08);
+}
