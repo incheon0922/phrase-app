@@ -1,7 +1,7 @@
 .import-page {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 26rpx;
 }
 
 .import-card,
@@ -12,8 +12,8 @@
 .import-title {
   display: block;
   font-size: 30rpx;
-  font-weight: 700;
-  color: #2b2b2b;
+  font-weight: 800;
+  color: #141414;
 }
 
 .import-desc {
@@ -21,7 +21,7 @@
   margin-top: 14rpx;
   font-size: 25rpx;
   line-height: 1.7;
-  color: #7a746b;
+  color: rgba(20, 20, 20, 0.66);
 }
 
 .import-primary,
@@ -32,20 +32,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 18rpx;
+  border-radius: 22rpx;
   font-size: 30rpx;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .import-primary {
-  color: #fffdf8;
-  background: linear-gradient(135deg, #2f5d50 0%, #3c7364 100%);
+  color: #141414;
+  background: #39b98a;
 }
 
 .import-secondary {
-  color: #2f5d50;
-  background: #f1ece1;
-  border: 2rpx solid #ddd3c5;
+  color: rgba(20, 20, 20, 0.72);
+  background: #f2f3ef;
+  border: 2rpx solid rgba(20, 20, 20, 0.08);
 }
 
 .import-textarea {
@@ -53,11 +53,12 @@
   min-height: 280rpx;
   margin-top: 22rpx;
   padding: 24rpx;
-  border: 2rpx solid #e7dfd1;
-  border-radius: 20rpx;
-  background: #fffcf6;
+  border: 2rpx solid rgba(20, 20, 20, 0.08);
+  border-radius: 24rpx;
+  background: #ffffff;
   font-size: 26rpx;
   line-height: 1.7;
+  color: #141414;
 }
 
 .preview-header {
@@ -69,12 +70,12 @@
 
 .preview-meta {
   font-size: 22rpx;
-  color: #7a746b;
+  color: rgba(20, 20, 20, 0.54);
 }
 
 .preview-item {
   padding: 22rpx 0;
-  border-bottom: 2rpx solid #f1ebdf;
+  border-bottom: 2rpx solid rgba(20, 20, 20, 0.06);
 }
 
 .preview-item:last-of-type {
@@ -84,8 +85,8 @@
 .preview-word {
   display: block;
   font-size: 28rpx;
-  font-weight: 700;
-  color: #2f5d50;
+  font-weight: 800;
+  color: #141414;
 }
 
 .preview-meaning {
@@ -93,7 +94,7 @@
   margin-top: 8rpx;
   font-size: 25rpx;
   line-height: 1.7;
-  color: #655f57;
+  color: rgba(20, 20, 20, 0.66);
 }
 
 .preview-empty,
@@ -102,10 +103,10 @@
   margin-top: 18rpx;
   font-size: 24rpx;
   line-height: 1.7;
-  color: #7a746b;
+  color: rgba(20, 20, 20, 0.66);
 }
 
 .save-button {
-  color: #fffdf8;
-  background: linear-gradient(135deg, #d98f39 0%, #e4a44f 100%);
+  color: #141414;
+  background: #39b98a;
 }

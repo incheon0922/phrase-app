@@ -44,6 +44,7 @@ export default function ImportPage() {
         Taro.showToast({ title: '未选择文件', icon: 'none' })
         return
       }
+
       const content = await readLocalFile(file.path)
       updatePreview(content, 'txt')
       Taro.showToast({ title: 'TXT 读取成功', icon: 'success' })
@@ -83,7 +84,9 @@ export default function ImportPage() {
     <View className='page-shell import-page'>
       <View className='card import-card'>
         <Text className='import-title'>导入方式</Text>
-        <Text className='import-desc'>先支持 TXT 文件和文本粘贴，建议每行一个词条，格式如“白驹过隙：形容时间过得很快”。</Text>
+        <Text className='import-desc'>
+          先支持 TXT 文件和文本粘贴，建议每行一个词条，格式如“白驹过隙：形容时间过得很快”。
+        </Text>
 
         <Button className='import-primary' onClick={handleChooseTxt}>
           选择 TXT 文件

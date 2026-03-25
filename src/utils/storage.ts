@@ -12,6 +12,7 @@ const PRACTICE_RECORD_STORAGE_KEY = 'phrase-app:practice-records'
 const STUDY_STATS_STORAGE_KEY = 'phrase-app:study-stats'
 const WRONG_BOOK_STORAGE_KEY = 'phrase-app:wrong-book'
 const DEFAULT_PRACTICE_COUNT_STORAGE_KEY = 'phrase-app:default-practice-count'
+const THEME_STORAGE_KEY = 'phrase-app:theme-id'
 
 export function getVocabularyItems(): VocabularyItem[] {
   try {
@@ -248,4 +249,17 @@ export function setDefaultPracticeCount(count: number) {
   const nextCount = normalizePracticeCount(count)
   Taro.setStorageSync(DEFAULT_PRACTICE_COUNT_STORAGE_KEY, nextCount)
   return nextCount
+}
+
+export function getThemeId() {
+  try {
+    return String(Taro.getStorageSync(THEME_STORAGE_KEY) || 'mint-clear')
+  } catch (error) {
+    return 'mint-clear'
+  }
+}
+
+export function setThemeId(themeId: string) {
+  Taro.setStorageSync(THEME_STORAGE_KEY, themeId)
+  return themeId
 }

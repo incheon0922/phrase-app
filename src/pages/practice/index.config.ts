@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '成语练习'
+  navigationBarTitleText: '词汇练习'
 })

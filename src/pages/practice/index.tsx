@@ -4,11 +4,13 @@ import Taro, { useDidShow } from '@tarojs/taro'
 import {
   appendPracticeRecord,
   getDefaultPracticeCount,
+  getPracticeRecords,
   getVocabularyItems,
   recordWrongBookItem,
   updateVocabularyPracticeResult,
   upsertDailyStudyRecord
 } from '../../utils/storage'
+import type { PracticeRecord } from '../../types/study'
 import type { VocabularyItem } from '../../types/vocabulary'
 import './index.scss'
 
@@ -35,12 +37,14 @@ const OPTION_KEYS: OptionKey[] = ['A', 'B', 'C', 'D']
 
 function shuffleArray<T>(list: T[]): T[] {
   const next = [...list]
+
   for (let index = next.length - 1; index > 0; index -= 1) {
     const randomIndex = Math.floor(Math.random() * (index + 1))
     const current = next[index]
     next[index] = next[randomIndex]
     next[randomIndex] = current
   }
+
   return next
 }
 
@@ -51,8 +55,12 @@ function getDateKey(date = new Date()) {
   return `${year}-${month}-${day}`
 }
 
-function pickQuestionItems(vocabularyItems: VocabularyItem[], practiceCount: number) {
-  return shuffleArray(vocabularyItems).slice(0, Math.min(practiceCount, vocabularyItems.length))
+function getTodayPracticeVocabularyIds(records: PracticeRecord[], dateKey: string) {
+  return new Set(
+    records
+      .filter((record) => record.answeredAt.startsWith(dateKey))
+      .map((record) => record.vocabularyId)
+  )
 }
 
 function buildQuestion(item: VocabularyItem, vocabularyItems: VocabularyItem[]): PracticeQuestion {
@@ -65,7 +73,6 @@ function buildQuestion(item: VocabularyItem, vocabularyItems: VocabularyItem[]):
     key,
     text: optionTexts[index]
   }))
-
   const answer = options.find((option) => option.text === item.meaning)?.key ?? 'A'
 
   return {
@@ -74,7 +81,7 @@ function buildQuestion(item: VocabularyItem, vocabularyItems: VocabularyItem[]):
     word: item.word,
     meaning: item.meaning,
     stem: `请选择“${item.word}”的正确释义`,
-    tip: '根据你导入的词汇随机生成',
+    tip: '根据词库内容随机生成四选一题目',
     explanation: `${item.word}：${item.meaning}`,
     answer,
     options
@@ -82,11 +89,14 @@ function buildQuestion(item: VocabularyItem, vocabularyItems: VocabularyItem[]):
 }
 
 function buildQuestions(vocabularyItems: VocabularyItem[], practiceCount: number) {
-  return pickQuestionItems(vocabularyItems, practiceCount).map((item) => buildQuestion(item, vocabularyItems))
+  return shuffleArray(vocabularyItems)
+    .slice(0, Math.min(practiceCount, vocabularyItems.length))
+    .map((item) => buildQuestion(item, vocabularyItems))
 }
 
 export default function Practice() {
   const [vocabularyItems, setVocabularyItems] = useState<VocabularyItem[]>([])
+  const [practiceRecords, setPracticeRecords] = useState<PracticeRecord[]>([])
   const [practiceCount, setPracticeCount] = useState(getDefaultPracticeCount())
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selected, setSelected] = useState<OptionKey | null>(null)
@@ -97,6 +107,7 @@ export default function Practice() {
 
   useDidShow(() => {
     setVocabularyItems(getVocabularyItems().filter((item) => item.word.trim() && item.meaning.trim()))
+    setPracticeRecords(getPracticeRecords())
     setPracticeCount(getDefaultPracticeCount())
     setCurrentIndex(0)
     setSelected(null)
@@ -106,12 +117,18 @@ export default function Practice() {
     setSessionSynced(false)
   })
 
-  const questions = useMemo(() => buildQuestions(vocabularyItems, practiceCount), [vocabularyItems, practiceCount])
+  const questions = useMemo(() => {
+    const todayVocabularyIds = getTodayPracticeVocabularyIds(practiceRecords, getDateKey())
+    const availableItems = vocabularyItems.filter((item) => !todayVocabularyIds.has(item.id))
+    return buildQuestions(availableItems, practiceCount)
+  }, [practiceCount, practiceRecords, vocabularyItems])
+
   const currentQuestion = questions[currentIndex]
   const progress = questions.length > 0 ? `${currentIndex + 1} / ${questions.length}` : '0 / 0'
 
   const syncTodayStudyStats = (correctCount: number, wrongCount: number) => {
     if (sessionSynced) return
+
     upsertDailyStudyRecord(getDateKey(), {
       practicedCount: correctCount + wrongCount,
       correctCount,
@@ -137,7 +154,8 @@ export default function Practice() {
       isCorrect,
       selectedOption: key,
       correctOption: currentQuestion.answer,
-      answeredAt
+      answeredAt,
+      source: 'normal'
     })
 
     updateVocabularyPracticeResult(currentQuestion.vocabularyId, isCorrect)
@@ -191,10 +209,10 @@ export default function Practice() {
         <View className='card explanation-card practice-empty'>
           <Text className='practice-title'>还不能开始练习</Text>
           <Text className='explanation-text'>
-            四选一练习至少需要 4 条已导入词汇。当前词库数量不足，先去导入更多 TXT 词条吧。
+            四选一练习至少需要 4 条已导入词汇。当前词库数量不足，先去导入更多词汇吧。
           </Text>
           <View className='next-button' onClick={handleBackToImport}>
-            <Text className='next-button-text'>去导入词汇</Text>
+            <Text className='next-button-text'>去导入词库</Text>
           </View>
         </View>
       </View>
@@ -202,21 +220,30 @@ export default function Practice() {
   }
 
   if (!currentQuestion) {
-    return null
+    return (
+      <View className='page-shell practice-page'>
+        <View className='card explanation-card practice-empty'>
+          <Text className='practice-title'>今日已练完</Text>
+          <Text className='explanation-text'>
+            今天可用的词汇已经练习完成，系统不会重复抽取当日做过的词条。明天再来，或先导入更多新词汇。
+          </Text>
+          <View className='next-button' onClick={() => Taro.navigateBack()}>
+            <Text className='next-button-text'>返回首页</Text>
+          </View>
+        </View>
+      </View>
+    )
   }
 
   return (
     <View className='page-shell practice-page'>
       <View className='practice-header'>
-        <Text className='practice-title'>成语练习</Text>
+        <Text className='practice-title'>词汇练习</Text>
         <Text className='practice-progress'>{progress}</Text>
       </View>
 
       <View className='progress-track'>
-        <View
-          className='progress-fill'
-          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-        />
+        <View className='progress-fill' style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }} />
       </View>
 
       <View className='card question-card'>
@@ -252,14 +279,12 @@ export default function Practice() {
             ? '练习记录、错题本和今日学习统计都已经同步到本地，可在“我的”页面查看。'
             : selected
               ? currentQuestion.explanation
-              : '作答后会在这里展示对应词语的释义。'}
+              : '作答后，这里会展示对应词汇的正确释义。'}
         </Text>
       </View>
 
       <View className='next-button' onClick={finished ? () => Taro.navigateBack() : handleNext}>
-        <Text className='next-button-text'>
-          {finished ? '返回首页' : currentIndex === questions.length - 1 ? '完成练习' : '下一题'}
-        </Text>
+        <Text className='next-button-text'>{finished ? '返回首页' : currentIndex === questions.length - 1 ? '完成练习' : '下一题'}</Text>
       </View>
     </View>
   )

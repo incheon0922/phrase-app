@@ -19,6 +19,11 @@ export function calculateAccuracy(records: PracticeRecord[]) {
   return Math.round((correctCount / records.length) * 100)
 }
 
+export function calculateTodayNormalPracticeCount(records: PracticeRecord[], today = new Date()) {
+  const todayKey = toDateKey(today)
+  return records.filter((item) => item.answeredAt.startsWith(todayKey) && item.source !== 'wrong_book').length
+}
+
 export function calculateStudyDays(dailyRecords: StudyDailyRecord[]) {
   return dailyRecords.filter((item) => item.practicedCount > 0).length
 }

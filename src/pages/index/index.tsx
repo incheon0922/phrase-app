@@ -13,9 +13,11 @@ import {
   calculateAccuracy,
   calculateCurrentStreak,
   calculateStudyDays,
+  calculateTodayNormalPracticeCount,
   getActiveWrongBookCount,
   getTodayStudyRecord
 } from '../../utils/stats'
+import { applyThemeChrome } from '../../utils/theme'
 import type { PracticeRecord, WrongBookItem } from '../../types/study'
 import type { VocabularyItem } from '../../types/vocabulary'
 import './index.scss'
@@ -26,7 +28,6 @@ export default function Index() {
   const [vocabularyItems, setVocabularyItems] = useState<VocabularyItem[]>([])
   const [practiceRecords, setPracticeRecords] = useState<PracticeRecord[]>([])
   const [wrongBookItems, setWrongBookItems] = useState<WrongBookItem[]>([])
-  const [defaultPracticeCount, setDefaultPracticeCountValue] = useState(10)
   const [selectedPracticeCount, setSelectedPracticeCount] = useState(10)
   const [customCount, setCustomCount] = useState('')
   const [todayPracticedCount, setTodayPracticedCount] = useState(0)
@@ -44,12 +45,12 @@ export default function Index() {
     setVocabularyItems(nextVocabularyItems)
     setPracticeRecords(nextPracticeRecords)
     setWrongBookItems(nextWrongBookItems)
-    setDefaultPracticeCountValue(savedCount)
     setSelectedPracticeCount(savedCount)
     setCustomCount(presetCounts.includes(savedCount) ? '' : String(savedCount))
     setTodayPracticedCount(todayRecord?.practicedCount || 0)
     setStudyDays(calculateStudyDays(studyStats.dailyRecords))
     setStreakDays(calculateCurrentStreak(studyStats.dailyRecords))
+    applyThemeChrome()
   })
 
   const handleStartPractice = () => {
@@ -65,17 +66,13 @@ export default function Index() {
     Taro.navigateTo({ url: '/pages/vocabulary-import/index' })
   }
 
-  const handleComingSoon = (name: string) => {
-    Taro.showToast({
-      title: `${name}功能开发中`,
-      icon: 'none'
-    })
+  const handleGoWrongBook = () => {
+    Taro.navigateTo({ url: '/pages/wrong-book/index' })
   }
 
   const handleSelectPracticeCount = (count: number) => {
     const nextCount = setDefaultPracticeCount(count)
     setSelectedPracticeCount(nextCount)
-    setDefaultPracticeCountValue(nextCount)
     setCustomCount('')
   }
 
@@ -83,22 +80,23 @@ export default function Index() {
     const nextValue = value.replace(/[^\d]/g, '').slice(0, 2)
     setCustomCount(nextValue)
     if (!nextValue) return
+
     const parsed = Number(nextValue)
     if (parsed > 0) {
       const nextCount = setDefaultPracticeCount(parsed)
       setSelectedPracticeCount(nextCount)
-      setDefaultPracticeCountValue(nextCount)
     }
   }
 
   const masteredCount = vocabularyItems.filter((item) => item.masteryLevel >= 3).length
   const accuracy = calculateAccuracy(practiceRecords)
   const wrongBookCount = getActiveWrongBookCount(wrongBookItems)
+  const todayNormalPracticeCount = calculateTodayNormalPracticeCount(practiceRecords)
 
   const learningOverview = [
-    { label: '练习总题数', value: String(practiceRecords.length) },
+    { label: '当日练习题数', value: String(todayNormalPracticeCount) },
     { label: '正确率', value: `${accuracy}%` },
-    { label: '连续学习', value: `${streakDays}天` },
+    { label: '连续学习', value: `${streakDays} 天` },
     { label: '当前错题', value: String(wrongBookCount) }
   ]
 
@@ -121,7 +119,7 @@ export default function Index() {
             <Text className='panel-desc'>
               {vocabularyItems.length > 0
                 ? `当前词库 ${vocabularyItems.length} 条，已掌握 ${masteredCount} 条，今天已练 ${todayPracticedCount} 题`
-                : '词库为空，先导入一批成语后再开始练习'}
+                : '词库为空，先导入一批词汇后再开始练习。'}
             </Text>
           </View>
           <View className='primary-button' onClick={handleStartPractice}>
@@ -169,9 +167,9 @@ export default function Index() {
           <Text className='quick-title'>导入词汇</Text>
           <Text className='quick-desc'>支持 TXT 文件与文本粘贴导入</Text>
         </View>
-        <View className='quick-card card' onClick={() => handleComingSoon('错题本')}>
+        <View className='quick-card card' onClick={handleGoWrongBook}>
           <Text className='quick-title'>错题本</Text>
-          <Text className='quick-desc'>后续可按错题频率做强化复习</Text>
+          <Text className='quick-desc'>进入错题练习，答对后会从错题本中移除</Text>
         </View>
       </View>
 

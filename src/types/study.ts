@@ -6,6 +6,7 @@ export interface PracticeRecord {
   selectedOption: string
   correctOption: string
   answeredAt: string
+  source?: 'normal' | 'wrong_book'
 }
 
 export interface StudyDailyRecord {
