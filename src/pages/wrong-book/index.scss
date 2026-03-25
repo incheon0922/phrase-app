@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12rpx 6rpx 0;
+  padding: 12rpx 6rpx 4rpx;
 }
 
 .practice-title {
@@ -24,6 +24,7 @@
   color: #2d9a72;
   background: rgba(57, 185, 138, 0.12);
   border: 2rpx solid rgba(57, 185, 138, 0.24);
+  box-shadow: inset 0 0 0 2rpx rgba(255, 255, 255, 0.32);
 }
 
 .progress-track {
@@ -36,12 +37,12 @@
 .progress-fill {
   height: 100%;
   border-radius: 999rpx;
-  background: #39b98a;
+  background: linear-gradient(90deg, #4bc897 0%, #39b98a 100%);
 }
 
 .question-card {
   padding: 36rpx 30rpx;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff, #fcfffd);
 }
 
 .question-stem {
@@ -74,11 +75,13 @@
   border: 2rpx solid rgba(20, 20, 20, 0.06);
   border-radius: 24rpx;
   background: #ffffff;
+  box-shadow: 0 10rpx 20rpx rgba(21, 24, 22, 0.03);
 }
 
 .option-item--correct {
   border-color: rgba(57, 185, 138, 0.32);
   background: rgba(57, 185, 138, 0.14);
+  box-shadow: 0 12rpx 24rpx rgba(57, 185, 138, 0.10);
 }
 
 .option-item--wrong {
@@ -115,7 +118,7 @@
 
 .explanation-card {
   padding: 28rpx;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff, #fcfffd);
 }
 
 .practice-empty {
@@ -161,7 +164,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 24rpx;
-  background: #39b98a;
+  background: linear-gradient(135deg, #4bc897 0%, #39b98a 100%);
+  box-shadow: 0 14rpx 28rpx rgba(57, 185, 138, 0.18);
 }
 
 .next-button-text {

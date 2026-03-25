@@ -38,13 +38,14 @@
 }
 
 .import-primary {
-  color: #141414;
-  background: #39b98a;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4bc897 0%, #39b98a 100%);
+  box-shadow: 0 14rpx 28rpx rgba(57, 185, 138, 0.18);
 }
 
 .import-secondary {
   color: rgba(20, 20, 20, 0.72);
-  background: #f2f3ef;
+  background: linear-gradient(180deg, #f4faf7, #edf3ef);
   border: 2rpx solid rgba(20, 20, 20, 0.08);
 }
 
@@ -55,7 +56,7 @@
   padding: 24rpx;
   border: 2rpx solid rgba(20, 20, 20, 0.08);
   border-radius: 24rpx;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff, #fcfffd);
   font-size: 26rpx;
   line-height: 1.7;
   color: #141414;
@@ -107,6 +108,7 @@
 }
 
 .save-button {
-  color: #141414;
-  background: #39b98a;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4bc897 0%, #39b98a 100%);
+  box-shadow: 0 14rpx 28rpx rgba(57, 185, 138, 0.18);
 }

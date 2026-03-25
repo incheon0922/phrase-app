@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 
 export const APP_THEME = {
   id: 'mint-clear',
-  name: '雾白薄荷',
+  name: 'Mint Clear',
   bg: '#FBFFFD',
   surface: '#EAF3EE',
   accent: '#39B98A',
