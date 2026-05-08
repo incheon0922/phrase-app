@@ -11,7 +11,6 @@ import {
 } from '../../utils/storage'
 import type { WrongBookItem } from '../../types/study'
 import type { VocabularyItem } from '../../types/vocabulary'
-import './index.scss'
 
 type OptionKey = 'A' | 'B' | 'C' | 'D'
 
@@ -31,6 +30,13 @@ interface WrongBookQuestion {
 }
 
 const OPTION_KEYS: OptionKey[] = ['A', 'B', 'C', 'D']
+const pageShellClass = 'min-h-screen px-[24rpx] pt-[28rpx] pb-[calc(48rpx+env(safe-area-inset-bottom))] bg-[radial-gradient(circle_at_top_right,rgba(57,185,138,0.05),transparent_24%),linear-gradient(180deg,#fcfffe_0%,#fbfffd_100%)] flex flex-col gap-[26rpx]'
+const cardClass = 'overflow-hidden bg-[#fcfffd] border-[2rpx] border-[rgba(21,24,22,0.06)] rounded-[32rpx] shadow-[0_18rpx_44rpx_rgba(21,24,22,0.05)]'
+const titleClass = 'text-[42rpx] font-extrabold text-[#141414]'
+const explanationTextClass = 'mt-[14rpx] block text-[26rpx] leading-[1.7] text-[rgba(20,20,20,0.66)]'
+const nextButtonClass = 'flex min-h-[88rpx] w-full items-center justify-center rounded-[24rpx] bg-[linear-gradient(135deg,#4bc897_0%,#39b98a_100%)] shadow-[0_14rpx_28rpx_rgba(57,185,138,0.18)]'
+const nextButtonTextClass = 'text-[30rpx] font-extrabold text-white'
+const optionBaseClass = 'flex min-h-[108rpx] items-center gap-[18rpx] rounded-[24rpx] border-[2rpx] px-[24rpx] py-[22rpx] shadow-[0_10rpx_20rpx_rgba(21,24,22,0.03)]'
 
 function shuffleArray<T>(list: T[]) {
   const next = [...list]
@@ -92,10 +98,10 @@ export default function WrongBookPractice() {
   const progress = questions.length > 0 ? `${currentIndex + 1} / ${questions.length}` : '0 / 0'
 
   const getOptionClassName = (key: OptionKey) => {
-    if (!selected) return 'option-item'
-    if (key === currentQuestion.answer) return 'option-item option-item--correct'
-    if (key === selected && key !== currentQuestion.answer) return 'option-item option-item--wrong'
-    return 'option-item option-item--disabled'
+    if (!selected) return `${optionBaseClass} border-[rgba(20,20,20,0.06)] bg-white`
+    if (key === currentQuestion.answer) return `${optionBaseClass} border-[rgba(57,185,138,0.32)] bg-[rgba(57,185,138,0.14)] shadow-[0_12rpx_24rpx_rgba(57,185,138,0.10)]`
+    if (key === selected && key !== currentQuestion.answer) return `${optionBaseClass} border-[rgba(20,20,20,0.12)] bg-[#f2f3ef]`
+    return `${optionBaseClass} border-[rgba(20,20,20,0.06)] bg-white opacity-70`
   }
 
   const handleSelect = (key: OptionKey) => {
@@ -154,12 +160,12 @@ export default function WrongBookPractice() {
 
   if (wrongBookItems.length === 0) {
     return (
-      <View className='page-shell practice-page'>
-        <View className='card explanation-card practice-empty'>
-          <Text className='practice-title'>暂无错题</Text>
-          <Text className='explanation-text'>当前没有需要复习的错题，先去做几轮练习吧。</Text>
-          <View className='next-button' onClick={() => Taro.navigateBack()}>
-            <Text className='next-button-text'>返回首页</Text>
+      <View className={pageShellClass}>
+        <View className={`${cardClass} flex min-h-[520rpx] flex-col items-center justify-center bg-[linear-gradient(180deg,#ffffff,#fcfffd)] p-[28rpx] text-center`}>
+          <Text className='text-[38rpx] font-extrabold text-[#141414]'>暂无错题</Text>
+          <Text className={explanationTextClass}>当前没有需要复习的错题，先去做几轮练习吧。</Text>
+          <View className={`${nextButtonClass} mt-[28rpx]`} onClick={() => Taro.navigateBack()}>
+            <Text className={nextButtonTextClass}>返回首页</Text>
           </View>
         </View>
       </View>
@@ -168,14 +174,14 @@ export default function WrongBookPractice() {
 
   if (vocabularyItems.length < 4) {
     return (
-      <View className='page-shell practice-page'>
-        <View className='card explanation-card practice-empty'>
-          <Text className='practice-title'>暂不能开始错题练习</Text>
-          <Text className='explanation-text'>
+      <View className={pageShellClass}>
+        <View className={`${cardClass} flex min-h-[520rpx] flex-col items-center justify-center bg-[linear-gradient(180deg,#ffffff,#fcfffd)] p-[28rpx] text-center`}>
+          <Text className='text-[38rpx] font-extrabold text-[#141414]'>暂不能开始错题练习</Text>
+          <Text className={explanationTextClass}>
             当前词库不足 4 条，无法生成四选一错题练习，请先导入更多词汇。
           </Text>
-          <View className='next-button' onClick={() => Taro.navigateTo({ url: '/pages/vocabulary-import/index' })}>
-            <Text className='next-button-text'>去导入词汇</Text>
+          <View className={`${nextButtonClass} mt-[28rpx]`} onClick={() => Taro.navigateTo({ url: '/pages/vocabulary-import/index' })}>
+            <Text className={nextButtonTextClass}>去导入词汇</Text>
           </View>
         </View>
       </View>
@@ -187,21 +193,21 @@ export default function WrongBookPractice() {
   }
 
   return (
-    <View className='page-shell practice-page'>
-      <View className='practice-header'>
-        <Text className='practice-title'>错题练习</Text>
-        <Text className='practice-progress'>{progress}</Text>
+    <View className={pageShellClass}>
+      <View className='flex items-center justify-between gap-[24rpx] px-[6rpx] pb-[4rpx] pt-[12rpx]'>
+        <Text className={titleClass}>错题练习</Text>
+        <Text className='shrink-0 rounded-full border-[2rpx] border-[rgba(57,185,138,0.24)] bg-[rgba(57,185,138,0.12)] px-[18rpx] py-[10rpx] text-[24rpx] text-[#2d9a72] shadow-[inset_0_0_0_2rpx_rgba(255,255,255,0.32)]'>{progress}</Text>
       </View>
 
-      <View className='progress-track'>
-        <View className='progress-fill' style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }} />
+      <View className='h-[16rpx] overflow-hidden rounded-full bg-[rgba(20,20,20,0.08)]'>
+        <View className='h-full rounded-full bg-[linear-gradient(90deg,#4bc897_0%,#39b98a_100%)]' style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }} />
       </View>
 
-      <View className='card question-card'>
-        <Text className='question-stem'>
+      <View className={`${cardClass} bg-[linear-gradient(180deg,#ffffff,#fcfffd)] px-[30rpx] py-[36rpx]`}>
+        <Text className='block text-[38rpx] font-extrabold leading-[1.55] text-[#141414]'>
           {finished ? '本轮错题练习已完成' : `请选择“${currentQuestion.word}”的正确释义`}
         </Text>
-        <Text className='question-tip'>
+        <Text className='mt-[16rpx] block text-[24rpx] leading-[1.7] text-[rgba(20,20,20,0.66)]'>
           {finished
             ? `本次共处理 ${questions.length} 条错题，已成功解决 ${resolvedCount} 条。`
             : `该词已累计答错 ${currentQuestion.wrongCount} 次，答对后将从错题本中移除。`}
@@ -209,25 +215,25 @@ export default function WrongBookPractice() {
       </View>
 
       {!finished && (
-        <View className='options-list'>
+        <View className='flex flex-col gap-[18rpx]'>
           {currentQuestion.options.map((option) => (
             <View
               className={getOptionClassName(option.key)}
               key={option.key}
               onClick={() => handleSelect(option.key)}
             >
-              <View className='option-key'>
-                <Text className='option-key-text'>{option.key}</Text>
+              <View className='flex h-[52rpx] w-[52rpx] shrink-0 items-center justify-center rounded-full bg-[rgba(57,185,138,0.14)]'>
+                <Text className='text-[24rpx] font-extrabold text-[#2d9a72]'>{option.key}</Text>
               </View>
-              <Text className='option-text'>{option.text}</Text>
+              <Text className='flex-1 text-[28rpx] leading-[1.5] text-[#141414]'>{option.text}</Text>
             </View>
           ))}
         </View>
       )}
 
-      <View className='card explanation-card'>
-        <Text className='explanation-title'>解析</Text>
-        <Text className='explanation-text'>
+      <View className={`${cardClass} bg-[linear-gradient(180deg,#ffffff,#fcfffd)] p-[28rpx]`}>
+        <Text className='block text-[28rpx] font-extrabold text-[#2d9a72]'>解析</Text>
+        <Text className={explanationTextClass}>
           {finished
             ? '本轮错题复习已结束，答对的词条会被标记为已解决，未答对的词条会继续留在错题本中。'
             : selected
@@ -236,8 +242,8 @@ export default function WrongBookPractice() {
         </Text>
       </View>
 
-      <View className='next-button' onClick={finished ? () => Taro.navigateBack() : handleNext}>
-        <Text className='next-button-text'>
+      <View className={nextButtonClass} onClick={finished ? () => Taro.navigateBack() : handleNext}>
+        <Text className={nextButtonTextClass}>
           {finished ? '返回首页' : currentIndex === questions.length - 1 ? '完成练习' : '下一题'}
         </Text>
       </View>

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  page {
+    min-height: 100%;
+    background: #fbfffd;
+    color: #151816;
+    font-family: 'Avenir Next', 'PingFang SC', 'Helvetica Neue', sans-serif;
+  }
+
+  view,
+  text,
+  button,
+  input,
+  textarea {
+    box-sizing: border-box;
+  }
+
+  button {
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+    background: transparent;
+  }
+
+  button::after {
+    border: 0;
+  }
+}
